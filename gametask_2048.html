@@ -78,7 +78,7 @@
 </head>
 
 <body>
-	<h1>Akvelon task</h1>
+	<h1>2048</h1>
 	<noscript><p>Ваш браузер не поддерживает скрипты!</p></noscript>
 	<p><i class="fas fa-info"></i><i> click on the sells to change the values to '0' or '2'</i></p>
 <div id="container">
@@ -284,7 +284,7 @@
 						arr[i+1][j] = arr[i][j]*2;
 						arr[i][j] = 0;
 						//i--;
-						if(typeof arr[i+2][j] !== "undefined" && arr[i+2][j] !=0){
+						if(typeof arr[i+2][j] !== "undefined" && arr[i+2][j] != 0){
 							pushDown();
 						}
 					}
