@@ -118,6 +118,7 @@
 	}
 
 	var up = function upMove(){
+		localStorage.setItem("lastmove", arr);
 		pushUp();
 		smashUp();
 		deleteOldTable();
@@ -126,6 +127,7 @@
 	}
 
 	var down = function downMove(){
+		localStorage.setItem("lastmove", arr);
 		pushDown();
 		smashDown();
 		deleteOldTable();
@@ -134,6 +136,7 @@
 	}
 
 	var left = function leftMove(){
+		localStorage.setItem("lastmove", arr);
 		pushLeft();
 		smashLeft();
 		deleteOldTable();
@@ -142,6 +145,7 @@
 	}
 
 	var right = function rightMove(){
+		localStorage.setItem("lastmove", arr);
 		pushRight();
 		smashRight();
 		deleteOldTable();
