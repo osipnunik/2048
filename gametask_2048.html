@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+	<title>JS practice</title>
+
+	<meta charset="utf-8">
+
+	
+	<style type="text/css">
+		i{
+			color:green;
+		}
+		.cell{
+				display: inline-block; 
+				width: 50px;
+				height: 40px;
+				border: solid 2px green;
+				text-align: center;
+				display: table-cell;
+    			vertical-align: middle;
+			}
+		h1{
+			text-align: center;
+			color: purple;
+		}
+		p{
+			text-align: center;
+		}
+		input{
+			text-align: center;
+		}
+		#table{
+			display: block;
+  			margin-left: auto;
+  			margin-right: auto;
+			width: 200px;
+			border: 2px solid red;
+		}
+		.arrowbutton{
+
+		}
+		#right{
+			display: inline-block;
+			float: right;
+			margin-right: auto;
+			
+  			/*vertical-align: middle;
+  			margin-right: auto;
+  			margin-left: auto; 
+  			margin-bottom: auto;
+  			margin-top: auto;
+  			width: 30px;
+  			border: 3px solid #73AD21;
+  			padding: 3px;	*/
+		}
+		#left{
+			display: inline-block;
+			float: left;
+			margin-left: auto;
+		}
+		#top{
+			display: block;
+			margin-left: auto;
+  			margin-right: auto;
+			vertical-align: top; 
+		}
+		#bottom{
+			display: block;
+			margin-left: auto;
+  			margin-right: auto;
+			vertical-align: bottom;
+		}
+	</style>
+
+</head>
+
+<body>
+	<h1>Akvelon task</h1>
+	<noscript><p>Ваш браузер не поддерживает скрипты!</p></noscript>
+	<p><i class="fas fa-info"></i><i> click on the sells to change the values to '0' or '2'</i></p>
+<div id="container">
+<button id="top">^^^^^</button>
+<div>
+<div id="table">
+
+
+</div>
+<button id="right">>>>></button>
+<button id="left" ><<<<</button>
+</div>
+<button id="bottom">^%$</button>
+</div>
+<!-- <button onclick="countMaxSequence(this)">click to know result</button> -->
+
+<script>
+	var a = prompt('Enter dimension of table : ', 4);
+	console.log('a = ' + a);
+	var arr = fillArrayAndInsertFirstRandomNumber(a);
+	
+	function fillArrayAndInsertFirstRandomNumber(a){
+		let arrLocal = new Array();
+		for(var i = 0; i < a; i++){
+			var arrSmall = new Array();
+			for(var j = 0; j < a; j++){
+				arrSmall.push(0)
+			}
+			arrLocal.push(arrSmall);
+		}
+		let I = Math.floor(Math.random()*a);
+		let J = Math.floor(Math.random()*a);
+		arrLocal[I][J] = 2;
+		return arrLocal;
+	}
+
+	var up = function upMove(){
+		pushUp();
+		smashUp();
+		deleteOldTable();
+		setTimeout(insertRandomNumber(), 1000);
+		//buildTable();
+	}
+
+	var down = function downMove(){
+		pushDown();
+		smashDown();
+		deleteOldTable();
+		setTimeout(insertRandomNumber(), 1000);
+		//buildTable();
+	}
+
+	var left = function leftMove(){
+		pushLeft();
+		smashLeft();
+		deleteOldTable();
+		setTimeout(insertRandomNumber(), 1000);
+		//buildTable();
+	}
+
+	var right = function rightMove(){
+		pushRight();
+		smashRight();
+		deleteOldTable();
+		setTimeout(insertRandomNumber(), 1000);
+		//buildTable();
+	}
+
+	console.log(arr);
+	buildTable();
+	setListenersToButtons();
+	function buildTable(){
+	var table = document.getElementById('table');
+	for(var i = 0; i < arr.length; i++){
+		var parentraw = document.createElement('div');
+		
+		for(var j = 0; j < arr[i].length; j++){
+			createCellDiv(parentraw, i, j);
+		}
+		table.appendChild(parentraw);
+	}
+	table.appendChild(document.createElement('br'));
+	
+	}
+
+
+
+	function setListenersToButtons(){   
+		document.getElementById("top").addEventListener("click", up);
+		document.getElementById("bottom").addEventListener("click", down);
+		document.getElementById("left").addEventListener("click", left);
+		document.getElementById("right").addEventListener("click", right);
+		console.log('setting listeners');
+	}
+
+	function createCellDiv(parentraw, i, j){
+		var parenttd = document.createElement('div');
+		parenttd.classList.add("cell");
+		parentraw.appendChild(parenttd);
+		createElementOnHtml('input', parenttd, i, j);
+		createElementOnHtml('i', parenttd, i, j);
+	}
+
+	function createElementOnHtml(tag, parenttd, i, j){
+		if(tag == 'input'){
+			elin = document.createElement(tag);
+			elin.setAttribute('id', i+':'+j);
+			elin.setAttribute('type', 'button');
+			elin.style.width = '80%';
+			elin.style.color = 'purple';
+			elin.value = arr[i][j];
+			elin.addEventListener("click", function(event){
+				var oldValue = arr[i][j];
+				var newval = (oldValue != 0) ? 0 : 2;
+				event.target.value=arr[i][j] = newval;
+				});
+			parenttd.appendChild(elin);
+		}
+		if(tag == 'i'){
+			var inp = document.createElement(tag);
+			inp.classList.add('far');
+			inp.classList.add('fa-arrow-alt-circle-left');
+			parenttd.appendChild(inp);
+			
+		}
+	}
+
+	function deleteOldTable(){
+		var elem = document.querySelector('#table');
+		while (elem.firstChild) {
+    		elem.removeChild(elem.firstChild);
+		}
+		//elem.removeChild(elem);
+	}
+
+		
+
+	
+
+	function rightMove(){
+		pushRight();
+		smashRight();
+		deleteOldTable();
+		setTimeout(insertRandomNumber(), 1000);
+		//buildTable();
+	}
+
+
+
+	function pushDown(){
+		for (var k = 0; k < arr.length; k++) {
+			for (var i = arr.length-1; i > 0; i--) {
+			for (var j = 0; j < arr[0].length; j++) {
+				if(arr[i][j] == 0){
+					arr[i][j] = arr[i-1][j];
+					arr[i-1][j] = 0;
+				}
+			}
+		}
+	}
+		console.log(arr);
+		buildTable();
+	}
+
+	function pushUp(){
+		for (var k = 0; k < arr.length; k++) {
+			for (var i = 0; i < arr.length-1; i++) {
+				for (var j = 0; j < arr[0].length; j++) {
+					if(arr[i][j] == 0){
+						arr[i][j] = arr[i+1][j];
+						arr[i+1][j] = 0;
+					}
+				}
+			}
+		}
+		console.log(arr);
+		buildTable();
+	}
+
+	function pushLeft(){
+		for (var k = 0; k < arr[0].length; k++){
+			for (var j = 0; j < arr[0].length-1; j++) {
+				for (var i = 0; i < arr.length; i++) {
+					if(arr[i][j] == 0){
+						arr[i][j] = arr[i][j+1];
+						arr[i][j+1] = 0;
+					}
+				}
+			}
+		}
+		console.log(arr);
+		buildTable();
+	}
+
+	function pushRight(){
+		for (var k = 0; k < arr[0].length; k++){
+			for (var j = arr[0].length-1; j > 0; j--) {
+				for (var i = 0; i < arr.length; i++) {
+					if(arr[i][j] == 0){
+						arr[i][j] = arr[i][j-1];
+						arr[i][j-1] = 0;
+					}
+				}
+			}
+		}
+		console.log(arr);
+		buildTable();
+	}
+
+	function smashDown(){        //only ufter pushdown
+		for (var k = 0; k < arr.length; k++) {
+			for (var i = 0; i < arr.length-1; i++) {
+				for (var j = 0; j < arr[0].length; j++) {
+					if(arr[i][j] != 0 && arr[i][j] == arr[i+1][j]){
+						arr[i+1][j] = arr[i][j]*2;
+						arr[i][j] = 0;
+						//i--;
+					}
+				}
+			}
+		}
+		console.log(arr);
+		buildTable();
+	}
+
+	function smashUp(){        //only ufter pushdown
+		for (var k = 0; k < arr.length; k++) {
+			for (var i = 0; i < arr.length-1; i++) {
+				for (var j = 0; j < arr[0].length; j++) {
+					if(arr[i][j] != 0 && arr[i][j] == arr[i+1][j]){
+						arr[i][j] = arr[i+1][j]*2;
+						arr[i+1][j] = 0;
+						//i++;
+					}
+				}
+			}
+		}
+		console.log(arr);
+		buildTable();
+	}
+
+	function smashLeft(){
+		for (var k = 0; k < arr[0].length; k++){
+			for (var j = 0; j < arr[0].length-1; j++) {
+				for (var i = 0; i < arr.length; i++) {
+					if(arr[i][j] != 0 && arr[i][j] == arr[i][j+1]){
+						arr[i][j] = arr[i][j+1]*2;
+						arr[i][j+1] = 0;
+						//j++;
+						if(arr[i][j-1] && arr[i][j-1] == 0){ //16 0 4 0  => 16 4 0 0
+							pushLeft();
+						}
+					}
+				}
+			}
+		}
+		console.log(arr);
+		buildTable();
+	}
+
+	function smashRight(){
+		for (var k = 0; k < arr[0].length; k++){
+			for (var j = 0; j < arr[0].length-1; j++) {
+				for (var i = 0; i < arr.length; i++) {
+					if(arr[i][j] != 0 && arr[i][j] == arr[i][j+1]){
+						arr[i][j+1] = arr[i][j]*2;
+						arr[i][j] = 0;
+						//j++;
+						if(arr[i][j-1] && arr[i][j-1] != 0){ //0404 =>0044
+							pushRight();
+						}
+					}
+				}
+			}
+		}
+		console.log(arr);
+		buildTable();
+	}
+
+	function insertRandomNumber(){
+		var randNum = Math.floor((Math.random() * 2) + 1)*2;
+		var coordinates = allZeroNumbersInArray();
+		var elem = coordinates[Math.floor(Math.random()*coordinates.length)];
+		var I = elem.split(':')[0];
+		var J = elem.split(':')[1];
+		console.log(randNum+' - ' + I + ' : ' + J);
+		arr[I][J] = randNum;
+		
+		buildTable();
+		document.getElementById(I+':'+J).style.color = 'red';  //its ok, after building(or before) we need to delete first table element with red color
+	}
+	
+	function allZeroNumbersInArray(){
+		var zeroArray = new Array();
+		for(var i = 0; i < arr.length; i++){
+			for(var j = 0; j < arr[i].length; j++){
+				if(arr[i][j] == 0){
+					zeroArray.push(i+':'+j);
+				}
+			}
+		}
+		if(zeroArray.length <= 1){
+			alert('you loose game!!');
+		}
+		return zeroArray;
+	}
+	
+	
+	
+
+</script>
+
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+<!-- <html>
+	<head>
+		<style type="text/css">
+			.cell{
+				display: inline-block; 
+				width:50;
+				height: 50;
+				border: solid 2px green;
+				text-align: center;
+
+			}
+			.row{
+				
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="row">
+			<div class="cell">some</div>	
+			<div class="cell">some</div>
+			<div class="cell">some</div>
+		</div>
+		<div class="row">
+			<div class="cell">some</div>	
+			<div class="cell">some</div>
+			<div class="cell">some</div>
+		</div>
+
+		<script src="2048.js">
+			
+		</script>
+	</body>
+
+</html> -->
