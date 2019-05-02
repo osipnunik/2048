@@ -285,7 +285,7 @@
 						arr[i+1][j] = arr[i][j]*2;
 						arr[i][j] = 0;
 						//i--;
-						if(typeof arr[i+2][j] !== "undefined" && (i+2) < a){
+						if((i+2) < a && typeof arr[i+2][j] !== "undefined"){
 							if(arr[i+2][j] != 0)
 							pushDown();
 						}
@@ -305,7 +305,7 @@
 						arr[i][j] = arr[i+1][j]*2;
 						arr[i+1][j] = 0;
 						//i++;
-						if(typeof arr[i+2][j] !== "undefined" && (i+2) < a){
+						if((i+2) < a && typeof arr[i+2][j] !== "undefined"){
 							if(arr[i+2][j] !=0){
 							pushUp();
 							}
@@ -326,7 +326,7 @@
 						arr[i][j-1] = arr[i][j]*2;
 						arr[i][j] = 0;
 						//j++;
-						if(typeof arr[i][j+1] !== "undefined" && (i+2) < a){ //16 0 4 0  => 16 4 0 0
+						if((j+1) < a && typeof arr[i][j+1] !== "undefined"){ //16 0 4 0  => 16 4 0 0
 							if(arr[i][j+1] != 0){
 							pushLeft();
 						}
@@ -348,7 +348,7 @@
 						arr[i][j+1] = arr[i][j]*2;
 						arr[i][j] = 0;
 						//j++;
-						if(typeof arr[i][j-1] !== "undefined" && (j-1) != -1){ //0404 =>0044
+						if((j-1) != -1 && typeof arr[i][j-1] !== "undefined"){ //0404 =>0044
 							if(arr[i][j-1] != 0){
 								pushRight();
 							}	
