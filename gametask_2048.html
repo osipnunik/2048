@@ -7,7 +7,7 @@
 	<title>JS practice</title>
 
 	<meta charset="utf-8">
-
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 	
 	<style type="text/css">
 		i{
@@ -82,16 +82,17 @@
 	<noscript><p>Ваш браузер не поддерживает скрипты!</p></noscript>
 	<p><i class="fas fa-info"></i><i> click on the sells to change the values to '0' or '2'</i></p>
 <div id="container">
-<button id="top">^^^^^</button>
+<button id="top"><i class="fas fa-arrow-alt-square-up">^^^^</i></button>
 <div>
 <div id="table">
 
 
 </div>
-<button id="right">>>>></button>
-<button id="left" ><<<<</button>
+
+<button id="right"><i class="fas fa-arrow-alt-square-right">>>>></i></button>
+<button id="left" ><i class="fas fa-arrow-alt-square-left"><<<<</i></button>
 </div>
-<button id="bottom">^%$</button>
+<button id="bottom"><i class="far fa-arrow-alt-circle-down"></i></button>
 </div>
 <!-- <button onclick="countMaxSequence(this)">click to know result</button> -->
 
@@ -198,13 +199,13 @@
 				});
 			parenttd.appendChild(elin);
 		}
-		if(tag == 'i'){
+		/*if(tag == 'i'){
 			var inp = document.createElement(tag);
 			inp.classList.add('far');
 			inp.classList.add('fa-arrow-alt-circle-left');
 			parenttd.appendChild(inp);
 			
-		}
+		}*/
 	}
 
 	function deleteOldTable(){
@@ -284,7 +285,8 @@
 						arr[i+1][j] = arr[i][j]*2;
 						arr[i][j] = 0;
 						//i--;
-						if(typeof arr[i+2][j] !== "undefined" && arr[i+2][j] != 0){
+						if(typeof arr[i+2][j] !== "undefined" && (i+2) < a){
+							if(arr[i+2][j] != 0)
 							pushDown();
 						}
 					}
@@ -303,8 +305,10 @@
 						arr[i][j] = arr[i+1][j]*2;
 						arr[i+1][j] = 0;
 						//i++;
-						if(typeof arr[i+2][j] !== "undefined" && arr[i+2][j] !=0){
+						if(typeof arr[i+2][j] !== "undefined" && (i+2) < a){
+							if(arr[i+2][j] !=0){
 							pushUp();
+							}
 						}
 					}
 				}
@@ -322,8 +326,10 @@
 						arr[i][j-1] = arr[i][j]*2;
 						arr[i][j] = 0;
 						//j++;
-						if(typeof arr[i][j+1] !== "undefined" && arr[i][j+1] != 0){ //16 0 4 0  => 16 4 0 0
+						if(typeof arr[i][j+1] !== "undefined" && (i+2) < a){ //16 0 4 0  => 16 4 0 0
+							if(arr[i][j+1] != 0){
 							pushLeft();
+						}
 						}
 					}
 					
@@ -342,8 +348,10 @@
 						arr[i][j+1] = arr[i][j]*2;
 						arr[i][j] = 0;
 						//j++;
-						if(typeof arr[i][j-1] !== "undefined" && arr[i][j-1] != 0){ //0404 =>0044
-							pushRight();
+						if(typeof arr[i][j-1] !== "undefined" && (j-1) != -1){ //0404 =>0044
+							if(arr[i][j-1] != 0){
+								pushRight();
+							}	
 						}
 					}
 				}
