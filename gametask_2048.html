@@ -284,6 +284,9 @@
 						arr[i+1][j] = arr[i][j]*2;
 						arr[i][j] = 0;
 						//i--;
+						if(typeof arr[i+2][j] !== "undefined" && arr[i+2][j] !=0){
+							pushDown();
+						}
 					}
 				}
 			}
