@@ -93,6 +93,7 @@
 <button id="left" ><i class="fas fa-arrow-alt-square-left"><<<<</i></button>
 </div>
 <button id="bottom"><i class="far fa-arrow-alt-circle-down"></i></button>
+<button id="reverse"><i class="far fa-arrow-alt-circle-down">reverse</i></button>
 </div>
 <!-- <button onclick="countMaxSequence(this)">click to know result</button> -->
 
@@ -100,6 +101,7 @@
 	'use strict'
 	var a = prompt('Enter dimension of table : ', 4);
 	console.log('a = ' + a);
+	var prevArr = null;
 	var arr = fillArrayAndInsertFirstRandomNumber(a);
 	
 	function fillArrayAndInsertFirstRandomNumber(a){
@@ -117,8 +119,18 @@
 		return arrLocal;
 	}
 
+	function fillprevArray(currentArray){
+		//prevArr = new Array(a);
+		var newArray = [];
+
+		for (var i = 0; i < currentArray.length; i++){
+    		newArray[i] = currentArray[i].slice();
+		}
+		prevArr = newArray;
+	}
+
 	var up = function upMove(){
-		localStorage.setItem("lastmove", arr);
+		fillprevArray(arr);
 		pushUp();
 		smashUp();
 		deleteOldTable();
@@ -127,7 +139,7 @@
 	}
 
 	var down = function downMove(){
-		localStorage.setItem("lastmove", arr);
+		fillprevArray(arr);
 		pushDown();
 		smashDown();
 		deleteOldTable();
@@ -136,7 +148,7 @@
 	}
 
 	var left = function leftMove(){
-		localStorage.setItem("lastmove", arr);
+		fillprevArray(arr);
 		pushLeft();
 		smashLeft();
 		deleteOldTable();
@@ -145,57 +157,64 @@
 	}
 
 	var right = function rightMove(){
-		localStorage.setItem("lastmove", arr);
+		fillprevArray(arr);
 		pushRight();
 		smashRight();
 		deleteOldTable();
 		setTimeout(insertRandomNumber(), 1000);
 		//buildTable();
 	}
+	
+
+	var reverse = function revers(){
+		console.log('reverse worked');
+		deleteOldTable();
+		buildTable(prevArr);
+	}
 
 	console.log(arr);
-	buildTable();
+	buildTable(arr);
 	setListenersToButtons();
-	function buildTable(){
-	var table = document.getElementById('table');
-	for(var i = 0; i < arr.length; i++){
-		var parentraw = document.createElement('div');
-		
-		for(var j = 0; j < arr[i].length; j++){
-			createCellDiv(parentraw, i, j);
+
+	function buildTable(array){
+		var table = document.getElementById('table');
+		for(var i = 0; i < array.length; i++){
+			var parentraw = document.createElement('div');
+			for(var j = 0; j < array[i].length; j++){
+				createCellDiv(parentraw, i, j, array);
+			}
+			table.appendChild(parentraw);
 		}
-		table.appendChild(parentraw);
+		table.appendChild(document.createElement('br'));
+		
 	}
-	table.appendChild(document.createElement('br'));
 	
-	}
-
-
 
 	function setListenersToButtons(){   
 		document.getElementById("top").addEventListener("click", up);
 		document.getElementById("bottom").addEventListener("click", down);
 		document.getElementById("left").addEventListener("click", left);
 		document.getElementById("right").addEventListener("click", right);
+		document.getElementById("reverse").addEventListener("click", reverse);
 		console.log('setting listeners');
 	}
 
-	function createCellDiv(parentraw, i, j){
+	function createCellDiv(parentraw, i, j, array){
 		var parenttd = document.createElement('div');
 		parenttd.classList.add("cell");
 		parentraw.appendChild(parenttd);
-		createElementOnHtml('input', parenttd, i, j);
+		createElementOnHtml('input', parenttd, i, j, array);
 		createElementOnHtml('i', parenttd, i, j);
 	}
 
-	function createElementOnHtml(tag, parenttd, i, j){
+	function createElementOnHtml(tag, parenttd, i, j, array){
 		if(tag == 'input'){
 			var elin = document.createElement(tag);
 			elin.setAttribute('id', i+':'+j);
 			elin.setAttribute('type', 'button');
 			elin.style.width = '80%';
 			elin.style.color = 'purple';
-			elin.value = arr[i][j];
+			elin.value = array[i][j];
 			elin.addEventListener("click", function(event){
 				var oldValue = arr[i][j];
 				var newval = (oldValue != 0) ? 0 : 2;
@@ -233,7 +252,7 @@
 		}
 	}
 		console.log(arr);
-		buildTable();
+		buildTable(arr);
 	}
 
 	function pushUp(){
@@ -248,7 +267,7 @@
 			}
 		}
 		console.log(arr);
-		buildTable();
+		buildTable(arr);
 	}
 
 	function pushLeft(){
@@ -263,7 +282,7 @@
 			}
 		}
 		console.log(arr);
-		buildTable();console.log('pushLeft');
+		buildTable(arr);console.log('pushLeft');
 	}
 
 	function pushRight(){
@@ -278,7 +297,7 @@
 			}
 		}
 		console.log(arr);
-		buildTable();
+		buildTable(arr);
 	}
 
 	function smashDown(){        //only ufter pushdown
@@ -298,7 +317,7 @@
 			}
 		}
 		console.log(arr);
-		buildTable();
+		buildTable(arr);
 	}
 
 	function smashUp(){        //only ufter pushdown
@@ -319,7 +338,7 @@
 			}
 		}
 		console.log(arr);
-		buildTable();
+		buildTable(arr);
 	}
 
 	function smashLeft(){
@@ -341,7 +360,7 @@
 			}
 		}
 		console.log(arr);
-		buildTable();
+		buildTable(arr);
 	}
 
 	function smashRight(){
@@ -362,7 +381,7 @@
 			}
 		}
 		console.log(arr);
-		buildTable();
+		buildTable(arr);
 	}
 
 	function insertRandomNumber(){
@@ -373,7 +392,7 @@
 		var J = elem.split(':')[1];
 		console.log(randNum+' - ' + I + ' : ' + J);
 		arr[I][J] = randNum;
-		buildTable();
+		buildTable(arr);
 		document.getElementById(I+':'+J).style.color = 'red';  //its ok, after building(or before) we need to delete first table element with red color
 	}
 	
