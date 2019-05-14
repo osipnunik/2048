@@ -40,7 +40,6 @@
 			border: 2px solid red;
 		}
 		.arrowbutton{
-
 		}
 		#right{
 			display: inline-block;
@@ -118,17 +117,14 @@
 		arrLocal[I][J] = 2;
 		return arrLocal;
 	}
-
 	function fillprevArray(currentArray){
 		//prevArr = new Array(a);
 		var newArray = [];
-
 		for (var i = 0; i < currentArray.length; i++){
     		newArray[i] = currentArray[i].slice();
 		}
 		prevArr = newArray;
 	}
-
 	var up = function upMove(){
 		fillprevArray(arr);
 		pushUp();
@@ -137,7 +133,6 @@
 		setTimeout(insertRandomNumber(), 1000);
 		//buildTable();
 	}
-
 	var down = function downMove(){
 		fillprevArray(arr);
 		pushDown();
@@ -146,7 +141,6 @@
 		setTimeout(insertRandomNumber(), 1000);
 		//buildTable();
 	}
-
 	var left = function leftMove(){
 		fillprevArray(arr);
 		pushLeft();
@@ -155,7 +149,6 @@
 		setTimeout(insertRandomNumber(), 1000);
 		//buildTable();
 	}
-
 	var right = function rightMove(){
 		fillprevArray(arr);
 		pushRight();
@@ -165,17 +158,14 @@
 		//buildTable();
 	}
 	
-
 	var reverse = function revers(){
 		console.log('reverse worked');
 		deleteOldTable();
 		buildTable(prevArr);
 	}
-
 	console.log(arr);
 	buildTable(arr);
 	setListenersToButtons();
-
 	function buildTable(array){
 		var table = document.getElementById('table');
 		for(var i = 0; i < array.length; i++){
@@ -189,7 +179,6 @@
 		
 	}
 	
-
 	function setListenersToButtons(){   
 		document.getElementById("top").addEventListener("click", up);
 		document.getElementById("bottom").addEventListener("click", down);
@@ -217,20 +206,32 @@
                     break;
             }
         });
-
 		
 		console.log('setting listeners');
 	}
-
 	function createCellDiv(parentraw, i, j, array){
 		var parenttd = document.createElement('div');
 		parenttd.classList.add("cell");
+		
 		parentraw.appendChild(parenttd);
-		createElementOnHtml('input', parenttd, i, j, array);
-		createElementOnHtml('i', parenttd, i, j);
+		createElementOnHtml('div', parenttd, i, j, array);
+		//createElementOnHtml('i', parenttd, i, j);
 	}
-
 	function createElementOnHtml(tag, parenttd, i, j, array){
+		if(tag == 'div'){
+			var celDiv = document.createElement(tag);
+			celDiv.setAttribute('id', i+':'+j);
+			if(array[i][j] == 0){celDiv.hidden = true;}
+			celDiv.innerHTML = array[i][j];
+			celDiv.addEventListener("click", function(event){
+				var oldValue = arr[i][j];
+				var newval = (oldValue != 0) ? 0 : 2;
+				event.target.value=arr[i][j] = newval;
+				});
+		parenttd.appendChild(celDiv);
+			return;
+		}
+/*
 		if(tag == 'input'){
 			var elin = document.createElement(tag);
 			elin.setAttribute('id', i+':'+j);
@@ -244,7 +245,7 @@
 				event.target.value=arr[i][j] = newval;
 				});
 			parenttd.appendChild(elin);
-		}
+		}*/
 		/*if(tag == 'i'){
 			var inp = document.createElement(tag);
 			inp.classList.add('far');
@@ -253,7 +254,6 @@
 			
 		}*/
 	}
-
 	function deleteOldTable(){
 		var elem = document.querySelector('#table');
 		while (elem.firstChild) {
@@ -262,7 +262,6 @@
 		//elem.removeChild(elem);
 	}
 	
-
 	function pushDown(){
 		for (var k = 0; k < arr.length; k++) {
 			for (var i = arr.length-1; i > 0; i--) {
@@ -277,7 +276,6 @@
 		console.log(arr);
 		buildTable(arr);
 	}
-
 	function pushUp(){
 		for (var k = 0; k < arr.length; k++) {
 			for (var i = 0; i < arr.length-1; i++) {
@@ -292,7 +290,6 @@
 		console.log(arr);
 		buildTable(arr);
 	}
-
 	function pushLeft(){
 		for (var k = 0; k < arr[0].length; k++){
 			for (var i = 0; i < arr.length; i++) {
@@ -307,7 +304,6 @@
 		console.log(arr);
 		buildTable(arr);console.log('pushLeft');
 	}
-
 	function pushRight(){
 		for (var k = 0; k < arr[0].length; k++){
 			for (var j = arr[0].length-1; j > 0; j--) {
@@ -322,7 +318,6 @@
 		console.log(arr);
 		buildTable(arr);
 	}
-
 	function smashDown(){        //only ufter pushdown
 		for (var k = 0; k < arr.length; k++) {
 			for (var i = 0; i < arr.length-1; i++) {
@@ -342,7 +337,6 @@
 		console.log(arr);
 		buildTable(arr);
 	}
-
 	function smashUp(){        //only ufter pushdown
 		for (var k = 0; k < arr.length; k++) {
 			for (var i = 0; i < arr.length-1; i++) {
@@ -363,7 +357,6 @@
 		console.log(arr);
 		buildTable(arr);
 	}
-
 	function smashLeft(){
 		for (var k = 0; k < arr[0].length; k++){
 			for (var j = 1; j < arr[0].length; j++) {
@@ -385,7 +378,6 @@
 		console.log(arr);
 		buildTable(arr);
 	}
-
 	function smashRight(){
 		for (var k = 0; k < arr[0].length; k++){
 			for (var j = 0; j < arr[0].length-1; j++) {
@@ -406,7 +398,6 @@
 		console.log(arr);
 		buildTable(arr);
 	}
-
 	function insertRandomNumber(){
 		var randNum = Math.floor((Math.random() * 2) + 1)*2;
 		var coordinates = allZeroNumbersInArray();
@@ -436,7 +427,6 @@
 	
 	
 	
-
 </script>
 
 </body>
@@ -459,14 +449,12 @@
 				height: 50;
 				border: solid 2px green;
 				text-align: center;
-
 			}
 			.row{
 				
 			}
 		</style>
 	</head>
-
 	<body>
 		<div class="row">
 			<div class="cell">some</div>	
@@ -478,10 +466,9 @@
 			<div class="cell">some</div>
 			<div class="cell">some</div>
 		</div>
-
 		<script src="2048.js">
 			
 		</script>
 	</body>
-
 </html> -->
+
