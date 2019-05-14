@@ -225,12 +225,30 @@
 	function createCellDiv(parentraw, i, j, array){
 		var parenttd = document.createElement('div');
 		parenttd.classList.add("cell");
+
+		
+
 		parentraw.appendChild(parenttd);
-		createElementOnHtml('input', parenttd, i, j, array);
-		createElementOnHtml('i', parenttd, i, j);
+		createElementOnHtml('div', parenttd, i, j, array);
+
+		//createElementOnHtml('i', parenttd, i, j);
 	}
 
 	function createElementOnHtml(tag, parenttd, i, j, array){
+		if(tag == 'div'){
+			var celDiv = document.createElement(tag);
+			celDiv.setAttribute('id', i+':'+j);
+			if(array[i][j] == 0){celDiv.hidden = true;}
+			celDiv.innerHTML = array[i][j];
+			celDiv.addEventListener("click", function(event){
+				var oldValue = arr[i][j];
+				var newval = (oldValue != 0) ? 0 : 2;
+				event.target.value=arr[i][j] = newval;
+				});
+		parenttd.appendChild(celDiv);
+			return;
+		}
+/*
 		if(tag == 'input'){
 			var elin = document.createElement(tag);
 			elin.setAttribute('id', i+':'+j);
@@ -244,7 +262,7 @@
 				event.target.value=arr[i][j] = newval;
 				});
 			parenttd.appendChild(elin);
-		}
+		}*/
 		/*if(tag == 'i'){
 			var inp = document.createElement(tag);
 			inp.classList.add('far');
