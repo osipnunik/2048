@@ -327,8 +327,8 @@
 						arr[i+1][j] = arr[i][j]*2;
 						arr[i][j] = 0;
 						//i--;
-						if((i+2) < a && typeof arr[i+2][j] !== "undefined"){
-							if(arr[i+2][j] != 0)
+						if((i-1) < a && typeof arr[i-1][j] !== "undefined"){
+							if(arr[i-1][j] != 0)
 							pushDown();
 						}
 					}
