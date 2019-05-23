@@ -11,8 +11,23 @@
 	
 	<style type="text/css">
 		i{
-			color:green;
+			color: darkblue;
 		}
+		body{
+			background-color: aquamarine;
+		}
+           @keyframes example {
+                from {opacity:0;}
+                to {opacity: 100;}
+            }
+           .anime{
+                animation-name: example;
+                animation-duration: 2s;
+
+           }
+           .cell:hover{
+               border:5px red;
+           }
 		.cell{
 				display: inline-block; 
 				width: 50px;
@@ -408,7 +423,9 @@
 		console.log(randNum+' - ' + I + ' : ' + J);
 		arr[I][J] = randNum;
 		buildTable(arr);
-		document.getElementById(I+':'+J).style.color = 'red';  //its ok, after building(or before) we need to delete first table element with red color
+		var cell = document.getElementById(I + ':' + J);
+        	cell.classList.add("anime");
+		cell.style.color = 'red';  //its ok, after building(or before) we need to delete first table element with red color
 	}
 	
 	function allZeroNumbersInArray(){
